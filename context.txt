@@ -1,0 +1,23 @@
+PROJECT: PUMP-PATROL
+PURPOSE: Real-time detection of Pump & Dump schemes in Telegram Groups.
+
+ARCHITECTURE:
+1. SPY ENGINE (spy_engine.py):
+   - Uses Telethon (Telegram API) to fetch last 7 days of history (Trend Analysis).
+   - Listens to live stream of messages in real-time.
+   - Saves raw data to 'data/telegram_log.csv'.
+
+2. BRAIN ENGINE (brain_engine.py):
+   - INTELLIGENCE LAYER 1 (Regex): Detects Index Options (e.g., "NIFTY 24500 CE").
+   - INTELLIGENCE LAYER 2 (Dynamic Discovery): Detects Stocks (e.g., "SUZLON") and verifies them using Yahoo Finance API to prevent false positives.
+   - INTELLIGENCE LAYER 3 (NLP): Uses TextBlob to calculate Sentiment/Hype Score (0-100).
+
+3. DASHBOARD SERVER (app.py):
+   - Flask Web Server running on Localhost:5000.
+   - Serves the Frontend UI and JSON API.
+
+4. EVIDENCE GENERATOR (evidence_gen.py):
+   - Generates legal-grade PDF reports containing timestamped logs of flagged messages.
+
+FLOW:
+Telegram -> Spy Engine -> Brain Engine -> CSV/JSON -> Flask API -> Dashboard UI
